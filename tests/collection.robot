@@ -2,9 +2,12 @@
 Library    String
 Library    SeleniumLibrary
 
+*** Variables ***
+${BROWSER}    Chrome
+
 *** Test Cases ***
 Run a search for a vinyl record and verify there are results
-    Open Browser                      url=https://vinyl-collector.vercel.app/  browser=chrome
+    Open Browser                      url=https://vinyl-collector.vercel.app/  browser=${BROWSER}
     Input Text                        id:artistTextBox   tame impala
     Input Text                        id:albumTextBox    currents
     Click Button                      xpath://button[text()="Search For Records"]

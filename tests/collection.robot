@@ -3,15 +3,14 @@ Library    String
 Library    SeleniumLibrary
 
 *** Variables ***
-${BROWSER}    Chrome
-${BASE_URL}   https://vinyl-collector.vercel.app/
+${BROWSER}                            Chrome
+${BASE_URL}                           https://vinyl-collector.vercel.app/
+${VERCEL_BYPASS_TOKEN}                
 
 *** Test Cases ***
 Run a search for a vinyl record and verify there are results
-    Open Headless Chrome To URL       ${BASE_URL}
-    Wait Until Element Is Visible     id:artistTextBox   timeout=15s
+    Open Headless Chrome To URL       ${BASE_URL}?x-vercel-protection-bypass=${VERCEL_BYPASS_TOKEN}&x-vercel-set-bypass-cookie=true
     Input Text                        id:artistTextBox   tame impala
-    Wait Until Element Is Visible     id:albumTextBox    timeout=15s
     Input Text                        id:albumTextBox    currents
     Wait Until Element Is Visible     xpath://button[text()="Search For Records"]
     Click Button                      xpath://button[text()="Search For Records"]

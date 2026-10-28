@@ -4,10 +4,11 @@ Library    SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}    Chrome
+${BASE_URL}   https://vinyl-collector.vercel.app/
 
 *** Test Cases ***
 Run a search for a vinyl record and verify there are results
-    Open Browser                      url=https://vinyl-collector.vercel.app/  browser=${BROWSER}
+    Open Headless Chrome To URL       ${BASE_URL}
     Input Text                        id:artistTextBox   tame impala
     Input Text                        id:albumTextBox    currents
     Click Button                      xpath://button[text()="Search For Records"]
@@ -49,7 +50,7 @@ Run a search using only the Album field
 
 Verify that a record added to the collection is still there when the user leaves and returns to the page
     Go To                             url=https://www.google.com
-    Go To                             url=https://vinyl-collector.vercel.app/
+    Go To                             url=${BASE_URL}
     Wait Until Page Contains Element  id:collection
     ${text}=  Get Text                xpath://*[@id="collection"]//div[@data-slot='item-title']
     Should Be Equal As Strings        ${text}  Tame Impala - Currents
@@ -60,3 +61,8 @@ Remove a record in the collection
     ${text}=  Get Text                xpath://*[@id="collection"]/p
     Should Be Equal As Strings        ${text}  Your record collection will appear here once you start adding albums from your search results.
     Close Browser
+
+*** Keywords ***
+Open Headless Chrome To URL
+    [Arguments]    ${url}
+    Open Browser    ${url}    browser=chrome    options=add_argument("--headless=new"); add_argument("--no-sandbox"); add_argument("--disable-dev-shm-usage")

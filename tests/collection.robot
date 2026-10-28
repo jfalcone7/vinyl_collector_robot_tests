@@ -9,8 +9,11 @@ ${BASE_URL}   https://vinyl-collector.vercel.app/
 *** Test Cases ***
 Run a search for a vinyl record and verify there are results
     Open Headless Chrome To URL       ${BASE_URL}
+    Wait Until Element Is Visible     id:artistTextBox   timeout=15s
     Input Text                        id:artistTextBox   tame impala
+    Wait Until Element Is Visible     id:albumTextBox    timeout=15s
     Input Text                        id:albumTextBox    currents
+    Wait Until Element Is Visible     xpath://button[text()="Search For Records"]
     Click Button                      xpath://button[text()="Search For Records"]
     Wait Until Page Contains Element  xpath=//div[@id='searchResults']//div[@role='list']
     Clear Element Text                id:artistTextBox
@@ -65,4 +68,4 @@ Remove a record in the collection
 *** Keywords ***
 Open Headless Chrome To URL
     [Arguments]    ${url}
-    Open Browser    ${url}    browser=chrome    options=add_argument("--headless=new"); add_argument("--no-sandbox"); add_argument("--disable-dev-shm-usage")
+    Open Browser   ${url}    browser=chrome    options=add_argument("--headless=new"); add_argument("--window-size=1920,1080"); add_argument("--no-sandbox"); add_argument("--disable-dev-shm-usage") 
